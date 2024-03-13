@@ -23,3 +23,252 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+//Layout da Tela de Feed Principal (activity_main.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
+
+//Tela de Perfil do Usuário (ProfileActivity.java)
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+
+public class ProfileActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
+        // Exemplo de dados do perfil do usuário
+        String username = "User123";
+        String bio = "Hello, I'm a gamer!";
+
+        // Configura os dados no layout
+        TextView usernameTextView = findViewById(R.id.usernameTextView);
+        TextView bioTextView = findViewById(R.id.bioTextView);
+
+        usernameTextView.setText(username);
+        bioTextView.setText(bio);
+    }
+}
+
+//Tela de Perfil do Usuário (ProfileActivity.java)
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+
+public class ProfileActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
+        // Exemplo de dados do perfil do usuário
+        String username = "User123";
+        String bio = "Hello, I'm a gamer!";
+
+        // Configura os dados no layout
+        TextView usernameTextView = findViewById(R.id.usernameTextView);
+        TextView bioTextView = findViewById(R.id.bioTextView);
+
+        usernameTextView.setText(username);
+        bioTextView.setText(bio);
+    }
+}
+
+//Layout da Tela de Perfil do Usuário (activity_profile.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ProfileActivity">
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:text="Username" />
+
+    <TextView
+        android:id="@+id/bioTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Bio" />
+
+</RelativeLayout>
+
+
+//Layout da Tela de Chat (activity_chat.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ChatActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/messageLayout"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/messageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Digite sua mensagem"/>
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar"/>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+//Adapter para o RecyclerView vamos ter que ter isso pra funcionar as mensagens
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
+    private List<String> messages;
+
+    public MessageAdapter(List<String> messages) {
+        this.messages = messages;
+    }
+
+    @Override
+    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(android.R.layout.simple_list_item_1, parent, false);
+        return new MessageViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(MessageViewHolder holder, int position) {
+        holder.messageTextView.setText(messages.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return messages.size();
+    }
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
+        public TextView messageTextView;
+
+        public MessageViewHolder(View itemView) {
+            super(itemView);
+            messageTextView = itemView.findViewById(android.R.id.text1);
+        }
+    }
+}
+
+
+//ChatActivity.java
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ChatActivity extends AppCompatActivity {
+    private List<String> messages = new ArrayList<>();
+    private MessageAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MessageAdapter(messages);
+        recyclerView.setAdapter(adapter);
+
+        EditText messageEditText = findViewById(R.id.messageEditText);
+        Button sendButton = findViewById(R.id.sendButton);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = messageEditText.getText().toString();
+                if (!message.isEmpty()) {
+                    messages.add(message);
+                    adapter.notifyItemInserted(messages.size() - 1);
+                    recyclerView.smoothScrollToPosition(messages.size() - 1);
+                    messageEditText.setText("");
+                }
+            }
+        });
+    }
+}
+
+//Layout da Tela de Exploração de Conteúdo (activity_explore.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ExploreActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
+
+
